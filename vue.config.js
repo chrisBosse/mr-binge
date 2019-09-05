@@ -1,35 +1,12 @@
+// File added to keep unit tests from failing 
+// see: https://github.com/vuetifyjs/vue-cli-plugin-vuetify/issues/101
+
 module.exports = {
-  pluginOptions: {
-    electronBuilder: {
-      builderOptions: {
-        // options placed here will be merged with default configuration and passed to electron-builder
-        asar: true,
-        icon: './src/assets/logo.png',
-        mac: {
-          target: 'zip',
-          category: 'public.app-category.video',
-          type: 'development'
-        },
-        win: {
-          target: [
-            {
-              target: 'nsis',
-              arch: ['x64']
-            }
-          ]
-        },
-        linux: {
-          target: 'snap',
-          category: 'video'
+    chainWebpack: config => {
+        if (process.env.NODE_ENV === 'test') {
+            const sassRule = config.module.rule('sass')
+            sassRule.uses.clear()
+            sassRule.use('null-loader').loader('null-loader')
         }
-      }
     }
-  },
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `@import '@/sass/globals.sass'`
-      }
-    }
-  }
 }
